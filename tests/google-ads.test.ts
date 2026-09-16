@@ -1,10 +1,21 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildGoogleAdsHeaders,
   buildKeywordIdeaBody,
   buildPausedCampaignOperations,
 } from "@/lib/providers/google-ads";
 
 describe("Google Ads request builders", () => {
+  it("sends the manager account as login-customer-id when configured", () => {
+    const headers = buildGoogleAdsHeaders("access-token", {
+      developerToken: "dev-token",
+      loginCustomerId: "123-456-7890",
+    });
+
+    expect(headers["developer-token"]).toBe("dev-token");
+    expect(headers["login-customer-id"]).toBe("1234567890");
+  });
+
   it("builds a combined keyword and URL seed", () => {
     const body = buildKeywordIdeaBody({
       customerId: "1234567890",

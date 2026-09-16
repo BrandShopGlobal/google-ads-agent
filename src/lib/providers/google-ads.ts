@@ -16,6 +16,26 @@ type MutateApiResponse = { campaignResult?: { resourceName?: string } };
 const version = process.env.GOOGLE_ADS_API_VERSION || "v22";
 const base = `https://googleads.googleapis.com/${version}`;
 
+export function buildGoogleAdsHeaders(
+  token: string,
+  config = {
+    developerToken: process.env.GOOGLE_ADS_DEVELOPER_TOKEN,
+    loginCustomerId: process.env.GOOGLE_ADS_LOGIN_CUSTOMER_ID,
+  },
+): Record<string, string> {
+  const headers: Record<string, string> = {
+    authorization: `Bearer ${token}`,
+    "content-type": "application/json",
+  };
+  if (config.developerToken) headers["developer-token"] = config.developerToken;
+  if (config.loginCustomerId) {
+    headers["login-customer-id"] = normalizeCustomerId(
+      config.loginCustomerId,
+    );
+  }
+  return headers;
+}
+
 export function buildKeywordIdeaBody(input: KeywordIdeaRequest) {
   const seed = input.url
     ? { keywordAndUrlSeed: { keywords: input.seeds, url: input.url } }
@@ -197,12 +217,7 @@ async function accessToken(): Promise<string> {
 
 async function googleFetch(path: string, init: RequestInit = {}) {
   const token = await accessToken();
-  const headers: Record<string, string> = {
-    authorization: `Bearer ${token}`,
-    "content-type": "application/json",
-  };
-  if (process.env.GOOGLE_ADS_DEVELOPER_TOKEN)
-    headers["developer-token"] = process.env.GOOGLE_ADS_DEVELOPER_TOKEN;
+  const headers = buildGoogleAdsHeaders(token);
   const response = await fetch(`${base}${path}`, {
     ...init,
     headers: { ...headers, ...(init.headers || {}) },
