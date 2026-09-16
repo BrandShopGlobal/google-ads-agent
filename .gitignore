@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.netlify/
+coverage/
+*.log
+.env
+.env.local
+.env.*.local
+*.zip
+.DS_Store
