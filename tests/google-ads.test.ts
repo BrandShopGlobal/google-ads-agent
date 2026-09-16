@@ -16,7 +16,7 @@ describe("Google Ads request builders", () => {
     expect(headers["login-customer-id"]).toBe("1234567890");
   });
 
-  it("builds a combined keyword and URL seed", () => {
+  it("builds a keyword seed request matching the working WordPress planner", () => {
     const body = buildKeywordIdeaBody({
       customerId: "1234567890",
       seeds: ["plumber"],
@@ -24,10 +24,11 @@ describe("Google Ads request builders", () => {
       locationIds: ["2036"],
       languageId: "1000",
     });
-    expect(body.keywordAndUrlSeed).toEqual({
+    expect(body.keywordSeed).toEqual({
       keywords: ["plumber"],
-      url: "https://example.com",
     });
+    expect(body.keywordAndUrlSeed).toBeUndefined();
+    expect(body.keywordPlanNetwork).toBe("GOOGLE_SEARCH");
     expect(body.geoTargetConstants).toEqual(["geoTargetConstants/2036"]);
   });
 

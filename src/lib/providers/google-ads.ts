@@ -37,17 +37,14 @@ export function buildGoogleAdsHeaders(
 }
 
 export function buildKeywordIdeaBody(input: KeywordIdeaRequest) {
-  const seed = input.url
-    ? { keywordAndUrlSeed: { keywords: input.seeds, url: input.url } }
-    : { keywordSeed: { keywords: input.seeds } };
   return {
     language: `languageConstants/${input.languageId}`,
     geoTargetConstants: input.locationIds.map(
       (id) => `geoTargetConstants/${id}`,
     ),
-    keywordPlanNetwork: "GOOGLE_SEARCH_AND_PARTNERS",
+    keywordPlanNetwork: "GOOGLE_SEARCH",
     includeAdultKeywords: false,
-    ...seed,
+    keywordSeed: { keywords: input.seeds },
   };
 }
 
