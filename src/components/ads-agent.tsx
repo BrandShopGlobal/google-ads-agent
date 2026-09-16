@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { readApiResponse } from "@/lib/api-client";
 import type { AdsAccount, Creative, KeywordIdea } from "@/lib/types";
 
 type Config = {
@@ -140,9 +141,7 @@ export function AdsAgent() {
       ...init,
       headers: { ...headers(), ...(init?.headers || {}) },
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Request failed");
-    return data;
+    return readApiResponse(response);
   }
   async function signIn(event: React.FormEvent) {
     event.preventDefault();
