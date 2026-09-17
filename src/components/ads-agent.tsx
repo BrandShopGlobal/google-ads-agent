@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import {
   BarChart3,
@@ -38,6 +39,8 @@ type FormState = {
 type SetForm = React.Dispatch<React.SetStateAction<FormState>>;
 type BasicActionProps = { onBack(): void; onNext(): void };
 const steps = ["Campaign brief", "Keyword review", "Ad creative", "Deploy"];
+const brandIconUrl =
+  "https://brandshop.com.au/wp-content/uploads/2024/12/cropped-BrandShop-Site-Icon-192x192.png";
 const money = (micros: number, currency = "AUD") =>
   new Intl.NumberFormat("en-AU", {
     style: "currency",
@@ -64,15 +67,15 @@ export function AdsAgent() {
   const [projectId, setProjectId] = useState("");
   const [form, setForm] = useState({
     customerId: "",
-    company: "Sydney Flow Plumbing",
+    company: "Brand Shop",
     description:
-      "Licensed local plumbing team providing emergency plumbing, blocked-drain and hot-water repair services across Sydney.",
-    url: "https://example.com",
-    seeds: "emergency plumber, blocked drain plumber",
+      "Brand Shop is a digital marketing and ecommerce growth agency helping online stores improve their Google Ads performance, increase qualified traffic, and generate more sales. Services include Google Ads campaign strategy, keyword research, campaign setup, ad copy creation, conversion tracking guidance, and ongoing optimisation for ecommerce and Shopify businesses.",
+    url: "https://brandshop.com.au",
+    seeds: "ecommerce marketing, google ads agency, shopify marketing",
     locationId: "2036",
     languageId: "1000",
     minimumVolume: 100,
-    campaignName: "Sydney Plumbing | Search",
+    campaignName: "Brand Shop | Search",
     dailyBudget: 50,
     confirmation: "",
   });
@@ -261,26 +264,33 @@ export function AdsAgent() {
 
   return (
     <main className="min-h-screen">
-      <header className="border-b border-slate-200 bg-white">
+      <div className="bg-[#da3f3f] px-5 py-2 text-center font-[var(--font-accent)] text-sm font-bold text-white">
+        Brand Shop Google Ads campaign workspace
+      </div>
+      <header className="border-b border-[#ededed] bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-teal-700 text-white">
-              <Megaphone size={20} />
-            </div>
+            <img
+              src={brandIconUrl}
+              alt="Brand Shop"
+              className="h-12 w-12 rounded-[5px]"
+            />
             <div>
-              <div className="font-black tracking-tight">BRAND SHOP</div>
-              <div className="text-xs font-semibold text-slate-500">
+              <div className="font-[var(--font-accent)] text-lg font-bold tracking-tight text-black">
+                Brand Shop
+              </div>
+              <div className="text-xs font-semibold text-[#7e7e7e]">
                 Google Ads AI Agent
               </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
             {config.demoMode && (
-              <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">
+              <span className="rounded-[5px] bg-[#fdc808] px-3 py-1 text-xs font-bold text-black">
                 DEMO MODE
               </span>
             )}
-            <span className="hidden text-sm text-slate-500 sm:inline">
+            <span className="hidden text-sm text-[#7e7e7e] sm:inline">
               {config.demoMode ? "Demo Administrator" : email}
             </span>
             {!config.demoMode && (
@@ -297,13 +307,13 @@ export function AdsAgent() {
       </header>
       <div className="mx-auto max-w-7xl px-5 py-8">
         <div className="mb-7">
-          <p className="mb-2 text-sm font-bold uppercase tracking-[.18em] text-teal-700">
+          <p className="mb-2 font-[var(--font-accent)] text-sm font-bold uppercase tracking-[.18em] text-[#da3f3f]">
             Campaign workspace
           </p>
-          <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
+          <h1 className="max-w-3xl text-3xl font-black tracking-tight text-black sm:text-5xl">
             Build a safer search campaign
           </h1>
-          <p className="mt-2 max-w-2xl text-slate-600">
+          <p className="mt-3 max-w-2xl text-[#666]">
             Research demand, remove irrelevant intent, create compliant ads, and
             deploy only after final review.
           </p>
@@ -313,9 +323,9 @@ export function AdsAgent() {
             <button
               key={label}
               onClick={() => index <= step && setStep(index)}
-              className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm font-bold ${step === index ? "border-teal-700 bg-teal-700 text-white" : index < step ? "border-teal-200 bg-teal-50 text-teal-800" : "border-slate-200 bg-white text-slate-400"}`}
+              className={`flex items-center gap-3 rounded-[5px] border px-4 py-3 text-left font-[var(--font-accent)] text-sm font-bold ${step === index ? "border-black bg-black text-white" : index < step ? "border-[#fdc808] bg-[#fff8d6] text-black" : "border-[#ededed] bg-white text-[#7e7e7e]"}`}
             >
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-white/20">
+              <span className="grid h-6 w-6 place-items-center rounded-[5px] bg-white/20">
                 {index < step ? <Check size={15} /> : index + 1}
               </span>
               {label}
@@ -325,7 +335,7 @@ export function AdsAgent() {
         {error && (
           <div
             role="alert"
-            className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-800"
+            className="mb-5 rounded-[5px] border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-800"
           >
             {error}
           </div>
@@ -379,7 +389,7 @@ export function AdsAgent() {
 function Loading({ label }: { label: string }) {
   return (
     <div className="grid min-h-screen place-items-center">
-      <div className="flex items-center gap-3 font-bold text-slate-600">
+      <div className="flex items-center gap-3 font-bold text-[#2a2a2a]">
         <Loader2 className="animate-spin" /> {label}
       </div>
     </div>
@@ -396,15 +406,20 @@ function Login(props: {
   return (
     <main className="grid min-h-screen place-items-center px-5">
       <form className="card w-full max-w-md p-8" onSubmit={props.onSubmit}>
-        <div className="mb-6 grid h-12 w-12 place-items-center rounded-xl bg-teal-700 text-white">
-          <KeyRound />
+        <div className="mb-6 flex items-center gap-3">
+          <img
+            src={brandIconUrl}
+            alt="Brand Shop"
+            className="h-12 w-12 rounded-[5px]"
+          />
+          <KeyRound className="text-[#da3f3f]" />
         </div>
-        <h1 className="text-2xl font-black">Team sign in</h1>
-        <p className="mb-6 mt-2 text-sm text-slate-600">
+        <h1 className="text-2xl font-black text-black">Team sign in</h1>
+        <p className="mb-6 mt-2 text-sm text-[#666]">
           Use your Brand Shop invitation credentials.
         </p>
         {props.error && (
-          <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+          <p className="mb-4 rounded-[5px] bg-red-50 p-3 text-sm text-red-700">
             {props.error}
           </p>
         )}
@@ -448,12 +463,12 @@ function Brief({
   return (
     <section className="card p-5 sm:p-7">
       <div className="mb-6 flex items-start gap-3">
-        <Sparkles className="mt-1 text-teal-700" />
+        <Sparkles className="mt-1 text-[#da3f3f]" />
         <div>
-          <h2 className="text-xl font-black">
+          <h2 className="text-xl font-black text-black">
             Tell the agent what you are advertising
           </h2>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-[#666]">
             Use factual information. The AI will not invent offers or
             guarantees.
           </p>
@@ -501,7 +516,7 @@ function Brief({
             value={form.locationId}
             onChange={(e) => update("locationId", e.target.value)}
           />
-          <small className="text-slate-400">
+          <small className="text-[#7e7e7e]">
             Australia: 2036 · United States: 2840
           </small>
         </Field>
@@ -511,11 +526,11 @@ function Brief({
             value={form.languageId}
             onChange={(e) => update("languageId", e.target.value)}
           />
-          <small className="text-slate-400">English: 1000</small>
+          <small className="text-[#7e7e7e]">English: 1000</small>
         </Field>
         <Field label={`Minimum monthly searches: ${form.minimumVolume}`}>
           <input
-            className="w-full accent-teal-700"
+            className="w-full accent-black"
             type="range"
             min="0"
             max="1000"
@@ -597,20 +612,20 @@ function Keywords({
     );
   return (
     <section className="card overflow-hidden">
-      <div className="flex flex-col justify-between gap-3 border-b border-slate-200 p-5 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-3 border-b border-[#ededed] p-5 sm:flex-row sm:items-center">
         <div>
-          <h2 className="text-xl font-black">Review keyword opportunities</h2>
-          <p className="text-sm text-slate-500">
+          <h2 className="text-xl font-black text-black">Review keyword opportunities</h2>
+          <p className="text-sm text-[#666]">
             {selectedCount} selected above {threshold} monthly searches
           </p>
         </div>
-        <span className="rounded-lg bg-teal-50 px-3 py-2 text-sm font-bold text-teal-800">
+        <span className="rounded-[5px] bg-[#fff8d6] px-3 py-2 text-sm font-bold text-black">
           AI relevance applied
         </span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[850px] text-sm">
-          <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+          <thead className="bg-[#f8f8f8] text-left text-xs uppercase tracking-wide text-[#666]">
             <tr>
               <th className="p-4">Use</th>
               <th className="p-4">Keyword</th>
@@ -625,19 +640,19 @@ function Keywords({
             {keywords.map((k: KeywordIdea, i: number) => (
               <tr
                 key={k.text}
-                className={`border-t border-slate-100 ${k.monthlySearches < threshold ? "opacity-45" : ""}`}
+                className={`border-t border-[#ededed] ${k.monthlySearches < threshold ? "opacity-45" : ""}`}
               >
                 <td className="p-4">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 accent-teal-700"
+                    className="h-4 w-4 accent-black"
                     checked={k.selected}
                     onChange={() => toggle(i, "selected")}
                   />
                 </td>
                 <td className="p-4 font-bold">
                   {k.text}
-                  <div className="mt-1 text-xs font-normal text-slate-400">
+                  <div className="mt-1 text-xs font-normal text-[#7e7e7e]">
                     {k.intent}
                   </div>
                 </td>
@@ -648,7 +663,7 @@ function Keywords({
                 <td className="p-4">{money(k.highTopPageBidMicros)}</td>
                 <td className="p-4">
                   <span
-                    className={`rounded-full px-2 py-1 text-xs font-black ${k.relevance >= 70 ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}`}
+                    className={`rounded-[5px] px-2 py-1 text-xs font-black ${k.relevance >= 70 ? "bg-[#fff8d6] text-black" : "bg-red-50 text-red-800"}`}
                   >
                     {k.relevance}%
                   </span>
@@ -696,7 +711,7 @@ function CreativeReview({
     <section className="grid gap-5 lg:grid-cols-[1fr_.8fr]">
       <div className="card p-5 sm:p-7">
         <h2 className="text-xl font-black">Responsive Search Ad</h2>
-        <p className="mb-6 text-sm text-slate-500">
+        <p className="mb-6 text-sm text-[#666]">
           Edit every asset before deployment.
         </p>
         <h3 className="mb-3 font-black">Headlines</h3>
@@ -709,7 +724,7 @@ function CreativeReview({
                 maxLength={30}
                 onChange={(e) => setItem("headlines", i, e.target.value)}
               />
-              <span className="float-right mt-1 text-xs text-slate-400">
+              <span className="float-right mt-1 text-xs text-[#7e7e7e]">
                 {v.length}/30
               </span>
             </label>
@@ -725,7 +740,7 @@ function CreativeReview({
                 maxLength={90}
                 onChange={(e) => setItem("descriptions", i, e.target.value)}
               />
-              <span className="float-right text-xs text-slate-400">
+              <span className="float-right text-xs text-[#7e7e7e]">
                 {v.length}/90
               </span>
             </label>
@@ -734,27 +749,27 @@ function CreativeReview({
       </div>
       <aside className="card h-fit p-5">
         <h3 className="mb-4 font-black">Search preview</h3>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-[#7e7e7e]">
           Sponsored ·{" "}
           {
             new URL(creative.sitelinks[0]?.finalUrl || "https://example.com")
               .hostname
           }
         </p>
-        <p className="mt-2 text-xl text-blue-700">
+        <p className="mt-2 text-xl font-semibold text-black">
           {creative.headlines.slice(0, 3).join(" | ")}
         </p>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-sm text-[#666]">
           {creative.descriptions[0]}
         </p>
         <div className="mt-5 border-t pt-4">
-          <h4 className="mb-2 text-xs font-black uppercase text-slate-500">
+          <h4 className="mb-2 text-xs font-black uppercase text-[#666]">
             Sitelinks
           </h4>
           {creative.sitelinks.map((s) => (
             <div key={s.text} className="mb-3">
-              <div className="font-bold text-blue-700">{s.text}</div>
-              <div className="text-xs text-slate-500">
+              <div className="font-bold text-black underline decoration-[#fdc808] decoration-2 underline-offset-4">{s.text}</div>
+              <div className="text-xs text-[#666]">
                 {s.description1} · {s.description2}
               </div>
             </div>
@@ -794,14 +809,14 @@ function Deploy({
   if (result)
     return (
       <section className="card p-8 text-center">
-        <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-emerald-700">
+        <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-[5px] bg-[#fff8d6] text-black">
           <Check size={34} />
         </div>
         <h2 className="text-2xl font-black">Paused campaign created</h2>
-        <p className="mt-2 text-slate-600">
+        <p className="mt-2 text-[#666]">
           Review it inside Google Ads before enabling it.
         </p>
-        <code className="mt-5 inline-block rounded-lg bg-slate-100 p-3 text-xs">
+        <code className="mt-5 inline-block rounded-[5px] bg-[#f8f8f8] p-3 text-xs">
           {result.resourceName}
         </code>
       </section>
@@ -828,7 +843,7 @@ function Deploy({
             />
           </Field>
         </div>
-        <div className="mt-6 grid gap-3 rounded-xl bg-slate-50 p-4 text-sm">
+        <div className="mt-6 grid gap-3 rounded-[5px] bg-[#f8f8f8] p-4 text-sm">
           <Summary
             label="Account"
             value={`${account?.name || "Selected account"} (${form.customerId})`}
@@ -847,8 +862,8 @@ function Deploy({
           />
           <Summary label="Status" value="PAUSED (locked)" />
         </div>
-        <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
-          <label className="label !text-amber-900">
+        <div className="mt-6 rounded-[5px] border border-[#fdc808] bg-[#fff8d6] p-4">
+          <label className="label !text-black">
             Type CREATE PAUSED CAMPAIGN to confirm
           </label>
           <input
@@ -859,11 +874,11 @@ function Deploy({
         </div>
       </div>
       <aside className="card h-fit p-5">
-        <div className="flex items-center gap-2 text-teal-800">
+        <div className="flex items-center gap-2 text-black">
           <ShieldCheck />
           <h3 className="font-black">Deployment safeguards</h3>
         </div>
-        <ul className="mt-4 space-y-3 text-sm text-slate-600">
+        <ul className="mt-4 space-y-3 text-sm text-[#666]">
           <li>✓ Admin permission required</li>
           <li>✓ Campaign status forced to Paused</li>
           <li>✓ Google character limits validated</li>
@@ -893,7 +908,7 @@ function Deploy({
 function Summary({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between gap-4">
-      <span className="text-slate-500">{label}</span>
+      <span className="text-[#666]">{label}</span>
       <strong className="text-right">{value}</strong>
     </div>
   );
@@ -912,7 +927,7 @@ function Actions({
   busy?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between border-t border-slate-200 p-5">
+    <div className="flex items-center justify-between border-t border-[#ededed] p-5">
       <button className="secondary" onClick={back}>
         Back
       </button>

@@ -4,15 +4,26 @@
 
 :root {
   color-scheme: light;
+  --font-body: var(--font-outfit), Arial, Helvetica, sans-serif;
+  --font-accent: var(--font-jost), var(--font-outfit), Arial, Helvetica,
+    sans-serif;
+  --brand-yellow: #fdc808;
+  --brand-black: #000000;
+  --brand-red: #da3f3f;
+  --brand-text: #2a2a2a;
+  --brand-muted: #7e7e7e;
+  --brand-border: #ededed;
+  --brand-surface: #ffffff;
+  --brand-soft: #f8f8f8;
 }
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
-  background: #f4f7fb;
-  color: #14213d;
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-family: var(--font-body);
 }
 button,
 input,
@@ -24,55 +35,62 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 3px solid rgba(13, 148, 136, 0.25);
+  outline: 3px solid rgba(253, 200, 8, 0.36);
   outline-offset: 2px;
 }
 .field {
   width: 100%;
-  border: 1px solid #d7deea;
-  border-radius: 10px;
-  background: white;
+  border: 1px solid #d2d2d2;
+  border-radius: 5px;
+  background: var(--brand-surface);
   padding: 11px 13px;
-  color: #14213d;
+  color: var(--brand-black);
 }
 .field:focus {
-  border-color: #0f766e;
+  border-color: var(--brand-black);
 }
 .label {
   display: block;
   margin-bottom: 6px;
-  color: #475569;
+  color: var(--brand-text);
   font-size: 13px;
   font-weight: 700;
 }
 .card {
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  background: white;
-  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--brand-border);
+  border-radius: 5px;
+  background: var(--brand-surface);
+  box-shadow: 0 5px 15px rgb(0 0 0 / 0.08);
 }
 .primary {
   border: 0;
-  border-radius: 10px;
-  background: #0f766e;
-  color: white;
+  border-radius: 5px;
+  background: var(--brand-black);
+  color: #ffffff;
   padding: 11px 18px;
-  font-weight: 800;
+  font-family: var(--font-accent);
+  font-weight: 700;
   cursor: pointer;
 }
 .primary:hover {
-  background: #115e59;
+  background: var(--brand-yellow);
+  color: var(--brand-black);
 }
 .primary:disabled {
   cursor: not-allowed;
   opacity: 0.55;
 }
 .secondary {
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
-  background: white;
-  color: #334155;
+  border: 1px solid var(--brand-black);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--brand-black);
   padding: 10px 16px;
+  font-family: var(--font-accent);
   font-weight: 700;
   cursor: pointer;
+}
+.secondary:hover {
+  background: var(--brand-black);
+  color: #ffffff;
 }
