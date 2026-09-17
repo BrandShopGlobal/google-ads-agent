@@ -10,17 +10,22 @@ describe("Brand Shop theme", () => {
 
     expect(layout).toContain('from "next/font/google"');
     expect(layout).toContain("Outfit");
-    expect(layout).toContain("Jost");
     expect(css).toContain("--brand-yellow: #fdc808");
     expect(css).toContain("--brand-black: #000000");
-    expect(css).toContain("--brand-red: #da3f3f");
     expect(css).toContain("font-family: var(--font-body)");
+    expect(css).toContain("font-size: 17px;");
+    expect(css).toContain("line-height: 28px;");
+    expect(css).toContain("font-size: 30px;");
+    expect(css).toContain("line-height: 39px;");
+    expect(css).toContain("background: var(--brand-yellow);");
   });
 
   it("uses Brand Shop identity and defaults instead of the old sample brand", () => {
     const component = read("src/components/ads-agent.tsx");
 
-    expect(component).toContain("cropped-BrandShop-Site-Icon-192x192.png");
+    expect(component).toContain("function BrandMark");
+    expect(component).not.toContain("cropped-BrandShop-Site-Icon-192x192.png");
+    expect(component).toContain("bg-[#fdc808]");
     expect(component).toContain('company: "Brand Shop"');
     expect(component).toContain('url: "https://brandshop.com.au"');
     expect(component).toContain(

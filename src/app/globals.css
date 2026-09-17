@@ -5,8 +5,7 @@
 :root {
   color-scheme: light;
   --font-body: var(--font-outfit), Arial, Helvetica, sans-serif;
-  --font-accent: var(--font-jost), var(--font-outfit), Arial, Helvetica,
-    sans-serif;
+  --font-accent: var(--font-outfit), Arial, Helvetica, sans-serif;
   --brand-yellow: #fdc808;
   --brand-black: #000000;
   --brand-red: #da3f3f;
@@ -21,9 +20,26 @@
 }
 body {
   margin: 0;
-  background: var(--brand-soft);
+  background: #ffffff;
   color: var(--brand-text);
   font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 28px;
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--brand-black);
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+h1 {
+  font-size: 30px;
+  line-height: 39px;
 }
 button,
 input,
@@ -45,36 +61,40 @@ select:focus-visible {
   background: var(--brand-surface);
   padding: 11px 13px;
   color: var(--brand-black);
+  font-size: 17px;
+  line-height: 28px;
 }
 .field:focus {
-  border-color: var(--brand-black);
+  border-color: var(--brand-yellow);
 }
 .label {
   display: block;
   margin-bottom: 6px;
-  color: var(--brand-text);
-  font-size: 13px;
+  color: var(--brand-black);
+  font-size: 15px;
   font-weight: 700;
+  line-height: 22px;
 }
 .card {
   border: 1px solid var(--brand-border);
   border-radius: 5px;
   background: var(--brand-surface);
-  box-shadow: 0 5px 15px rgb(0 0 0 / 0.08);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.06);
 }
 .primary {
-  border: 0;
+  border: 1px solid var(--brand-yellow);
   border-radius: 5px;
-  background: var(--brand-black);
-  color: #ffffff;
+  background: var(--brand-yellow);
+  color: var(--brand-black);
   padding: 11px 18px;
   font-family: var(--font-accent);
   font-weight: 700;
   cursor: pointer;
 }
 .primary:hover {
-  background: var(--brand-yellow);
-  color: var(--brand-black);
+  border-color: var(--brand-black);
+  background: var(--brand-black);
+  color: #ffffff;
 }
 .primary:disabled {
   cursor: not-allowed;
@@ -91,6 +111,20 @@ select:focus-visible {
   cursor: pointer;
 }
 .secondary:hover {
-  background: var(--brand-black);
-  color: #ffffff;
+  border-color: var(--brand-yellow);
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+}
+.brand-mark {
+  display: grid;
+  height: 48px;
+  width: 48px;
+  place-items: center;
+  border-radius: 5px;
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
 }

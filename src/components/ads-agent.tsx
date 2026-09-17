@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import {
   BarChart3,
@@ -39,8 +38,6 @@ type FormState = {
 type SetForm = React.Dispatch<React.SetStateAction<FormState>>;
 type BasicActionProps = { onBack(): void; onNext(): void };
 const steps = ["Campaign brief", "Keyword review", "Ad creative", "Deploy"];
-const brandIconUrl =
-  "https://brandshop.com.au/wp-content/uploads/2024/12/cropped-BrandShop-Site-Icon-192x192.png";
 const money = (micros: number, currency = "AUD") =>
   new Intl.NumberFormat("en-AU", {
     style: "currency",
@@ -264,22 +261,18 @@ export function AdsAgent() {
 
   return (
     <main className="min-h-screen">
-      <div className="bg-[#da3f3f] px-5 py-2 text-center font-[var(--font-accent)] text-sm font-bold text-white">
+      <div className="bg-[#fdc808] px-5 py-2 text-center text-sm font-bold text-black">
         Brand Shop Google Ads campaign workspace
       </div>
       <header className="border-b border-[#ededed] bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
           <div className="flex items-center gap-3">
-            <img
-              src={brandIconUrl}
-              alt="Brand Shop"
-              className="h-12 w-12 rounded-[5px]"
-            />
+            <BrandMark />
             <div>
-              <div className="font-[var(--font-accent)] text-lg font-bold tracking-tight text-black">
+              <div className="text-[24px] font-bold leading-[31px] text-black">
                 Brand Shop
               </div>
-              <div className="text-xs font-semibold text-[#7e7e7e]">
+              <div className="text-[15px] font-normal leading-[22px] text-[#2a2a2a]">
                 Google Ads AI Agent
               </div>
             </div>
@@ -307,13 +300,13 @@ export function AdsAgent() {
       </header>
       <div className="mx-auto max-w-7xl px-5 py-8">
         <div className="mb-7">
-          <p className="mb-2 font-[var(--font-accent)] text-sm font-bold uppercase tracking-[.18em] text-[#da3f3f]">
+          <p className="mb-2 text-sm font-bold uppercase tracking-[.18em] text-black">
             Campaign workspace
           </p>
-          <h1 className="max-w-3xl text-3xl font-black tracking-tight text-black sm:text-5xl">
+          <h1 className="max-w-3xl text-[30px] font-bold leading-[39px] text-black">
             Build a safer search campaign
           </h1>
-          <p className="mt-3 max-w-2xl text-[#666]">
+          <p className="mt-3 max-w-2xl text-[17px] font-normal leading-[28px] text-[#2a2a2a]">
             Research demand, remove irrelevant intent, create compliant ads, and
             deploy only after final review.
           </p>
@@ -323,7 +316,7 @@ export function AdsAgent() {
             <button
               key={label}
               onClick={() => index <= step && setStep(index)}
-              className={`flex items-center gap-3 rounded-[5px] border px-4 py-3 text-left font-[var(--font-accent)] text-sm font-bold ${step === index ? "border-black bg-black text-white" : index < step ? "border-[#fdc808] bg-[#fff8d6] text-black" : "border-[#ededed] bg-white text-[#7e7e7e]"}`}
+              className={`flex items-center gap-3 rounded-[5px] border px-4 py-3 text-left text-sm font-bold ${step === index ? "border-[#fdc808] bg-[#fdc808] text-black" : index < step ? "border-[#fdc808] bg-[#fff8d6] text-black" : "border-[#ededed] bg-white text-[#7e7e7e]"}`}
             >
               <span className="grid h-6 w-6 place-items-center rounded-[5px] bg-white/20">
                 {index < step ? <Check size={15} /> : index + 1}
@@ -386,6 +379,10 @@ export function AdsAgent() {
   );
 }
 
+function BrandMark() {
+  return <div className="brand-mark" aria-label="Brand Shop logo">BS</div>;
+}
+
 function Loading({ label }: { label: string }) {
   return (
     <div className="grid min-h-screen place-items-center">
@@ -407,15 +404,11 @@ function Login(props: {
     <main className="grid min-h-screen place-items-center px-5">
       <form className="card w-full max-w-md p-8" onSubmit={props.onSubmit}>
         <div className="mb-6 flex items-center gap-3">
-          <img
-            src={brandIconUrl}
-            alt="Brand Shop"
-            className="h-12 w-12 rounded-[5px]"
-          />
-          <KeyRound className="text-[#da3f3f]" />
+          <BrandMark />
+          <KeyRound className="text-black" />
         </div>
-        <h1 className="text-2xl font-black text-black">Team sign in</h1>
-        <p className="mb-6 mt-2 text-sm text-[#666]">
+        <h1>Team sign in</h1>
+        <p className="mb-6 mt-2 text-[17px] leading-[28px] text-[#2a2a2a]">
           Use your Brand Shop invitation credentials.
         </p>
         {props.error && (
@@ -463,12 +456,12 @@ function Brief({
   return (
     <section className="card p-5 sm:p-7">
       <div className="mb-6 flex items-start gap-3">
-        <Sparkles className="mt-1 text-[#da3f3f]" />
+        <Sparkles className="mt-1 text-black" />
         <div>
-          <h2 className="text-xl font-black text-black">
+          <h2 className="text-[30px] font-bold leading-[39px] text-black">
             Tell the agent what you are advertising
           </h2>
-          <p className="text-sm text-[#666]">
+          <p className="text-[17px] leading-[28px] text-[#2a2a2a]">
             Use factual information. The AI will not invent offers or
             guarantees.
           </p>
@@ -530,7 +523,7 @@ function Brief({
         </Field>
         <Field label={`Minimum monthly searches: ${form.minimumVolume}`}>
           <input
-            className="w-full accent-black"
+            className="w-full accent-[#fdc808]"
             type="range"
             min="0"
             max="1000"
@@ -614,8 +607,8 @@ function Keywords({
     <section className="card overflow-hidden">
       <div className="flex flex-col justify-between gap-3 border-b border-[#ededed] p-5 sm:flex-row sm:items-center">
         <div>
-          <h2 className="text-xl font-black text-black">Review keyword opportunities</h2>
-          <p className="text-sm text-[#666]">
+          <h2 className="text-xl font-bold text-black">Review keyword opportunities</h2>
+          <p className="text-sm text-[#2a2a2a]">
             {selectedCount} selected above {threshold} monthly searches
           </p>
         </div>
@@ -625,7 +618,7 @@ function Keywords({
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[850px] text-sm">
-          <thead className="bg-[#f8f8f8] text-left text-xs uppercase tracking-wide text-[#666]">
+          <thead className="bg-[#f8f8f8] text-left text-xs uppercase tracking-wide text-[#2a2a2a]">
             <tr>
               <th className="p-4">Use</th>
               <th className="p-4">Keyword</th>
@@ -645,7 +638,7 @@ function Keywords({
                 <td className="p-4">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 accent-black"
+                    className="h-4 w-4 accent-[#fdc808]"
                     checked={k.selected}
                     onChange={() => toggle(i, "selected")}
                   />
@@ -663,7 +656,7 @@ function Keywords({
                 <td className="p-4">{money(k.highTopPageBidMicros)}</td>
                 <td className="p-4">
                   <span
-                    className={`rounded-[5px] px-2 py-1 text-xs font-black ${k.relevance >= 70 ? "bg-[#fff8d6] text-black" : "bg-red-50 text-red-800"}`}
+                    className={`rounded-[5px] px-2 py-1 text-xs font-bold ${k.relevance >= 70 ? "bg-[#fff8d6] text-black" : "bg-red-50 text-red-800"}`}
                   >
                     {k.relevance}%
                   </span>
@@ -710,11 +703,11 @@ function CreativeReview({
   return (
     <section className="grid gap-5 lg:grid-cols-[1fr_.8fr]">
       <div className="card p-5 sm:p-7">
-        <h2 className="text-xl font-black">Responsive Search Ad</h2>
-        <p className="mb-6 text-sm text-[#666]">
+        <h2 className="text-xl font-bold">Responsive Search Ad</h2>
+        <p className="mb-6 text-sm text-[#2a2a2a]">
           Edit every asset before deployment.
         </p>
-        <h3 className="mb-3 font-black">Headlines</h3>
+        <h3 className="mb-3 font-bold">Headlines</h3>
         <div className="grid gap-3 sm:grid-cols-2">
           {creative.headlines.map((v: string, i: number) => (
             <label key={i}>
@@ -730,7 +723,7 @@ function CreativeReview({
             </label>
           ))}
         </div>
-        <h3 className="mb-3 mt-7 font-black">Descriptions</h3>
+        <h3 className="mb-3 mt-7 font-bold">Descriptions</h3>
         <div className="space-y-3">
           {creative.descriptions.map((v: string, i: number) => (
             <label key={i} className="block">
@@ -748,7 +741,7 @@ function CreativeReview({
         </div>
       </div>
       <aside className="card h-fit p-5">
-        <h3 className="mb-4 font-black">Search preview</h3>
+        <h3 className="mb-4 font-bold">Search preview</h3>
         <p className="text-xs text-[#7e7e7e]">
           Sponsored ·{" "}
           {
@@ -759,17 +752,17 @@ function CreativeReview({
         <p className="mt-2 text-xl font-semibold text-black">
           {creative.headlines.slice(0, 3).join(" | ")}
         </p>
-        <p className="mt-2 text-sm text-[#666]">
+        <p className="mt-2 text-sm text-[#2a2a2a]">
           {creative.descriptions[0]}
         </p>
         <div className="mt-5 border-t pt-4">
-          <h4 className="mb-2 text-xs font-black uppercase text-[#666]">
+          <h4 className="mb-2 text-xs font-bold uppercase text-[#2a2a2a]">
             Sitelinks
           </h4>
           {creative.sitelinks.map((s) => (
             <div key={s.text} className="mb-3">
               <div className="font-bold text-black underline decoration-[#fdc808] decoration-2 underline-offset-4">{s.text}</div>
-              <div className="text-xs text-[#666]">
+              <div className="text-xs text-[#2a2a2a]">
                 {s.description1} · {s.description2}
               </div>
             </div>
@@ -812,8 +805,8 @@ function Deploy({
         <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-[5px] bg-[#fff8d6] text-black">
           <Check size={34} />
         </div>
-        <h2 className="text-2xl font-black">Paused campaign created</h2>
-        <p className="mt-2 text-[#666]">
+        <h2 className="text-2xl font-bold">Paused campaign created</h2>
+        <p className="mt-2 text-[#2a2a2a]">
           Review it inside Google Ads before enabling it.
         </p>
         <code className="mt-5 inline-block rounded-[5px] bg-[#f8f8f8] p-3 text-xs">
@@ -824,7 +817,7 @@ function Deploy({
   return (
     <section className="grid gap-5 lg:grid-cols-[1fr_.7fr]">
       <div className="card p-5 sm:p-7">
-        <h2 className="text-xl font-black">Final campaign review</h2>
+        <h2 className="text-xl font-bold">Final campaign review</h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2">
           <Field label="Campaign name">
             <input
@@ -876,9 +869,9 @@ function Deploy({
       <aside className="card h-fit p-5">
         <div className="flex items-center gap-2 text-black">
           <ShieldCheck />
-          <h3 className="font-black">Deployment safeguards</h3>
+          <h3 className="font-bold">Deployment safeguards</h3>
         </div>
-        <ul className="mt-4 space-y-3 text-sm text-[#666]">
+        <ul className="mt-4 space-y-3 text-sm text-[#2a2a2a]">
           <li>✓ Admin permission required</li>
           <li>✓ Campaign status forced to Paused</li>
           <li>✓ Google character limits validated</li>
@@ -908,7 +901,7 @@ function Deploy({
 function Summary({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between gap-4">
-      <span className="text-[#666]">{label}</span>
+      <span className="text-[#2a2a2a]">{label}</span>
       <strong className="text-right">{value}</strong>
     </div>
   );
