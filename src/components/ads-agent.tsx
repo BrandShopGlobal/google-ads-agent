@@ -5,6 +5,7 @@ import {
   BarChart3,
   Check,
   ChevronRight,
+  Download,
   KeyRound,
   Loader2,
   LogOut,
@@ -44,6 +45,117 @@ const money = (micros: number, currency = "AUD") =>
     currency,
     maximumFractionDigits: 2,
   }).format(micros / 1_000_000);
+
+
+function downloadEditorCsv(
+  form: FormState,
+  keywords: KeywordIdea[],
+  creative: Creative,
+) {
+  const headers = [
+    "Action",
+    "Campaign",
+    "Campaign type",
+    "Campaign state",
+    "Budget",
+    "Bid Strategy Type",
+    "Ad group",
+    "Ad group state",
+    "Keyword",
+    "Match type",
+    "Headline 1",
+    "Headline 2",
+    "Headline 3",
+    "Headline 4",
+    "Headline 5",
+    "Headline 6",
+    "Headline 7",
+    "Headline 8",
+    "Headline 9",
+    "Headline 10",
+    "Description 1",
+    "Description 2",
+    "Description 3",
+    "Final URL",
+  ];
+
+  const rows: string[][] = [headers];
+
+  const escape = (val: string) => '"' + (val || "").replace(/"/g, '""') + '"';
+
+  // 1. Responsive Search Ad row (creates Campaign, Ad Group, and Ad)
+  const adRow = [
+    escape("Add"),
+    escape(form.campaignName),
+    escape("Search"),
+    escape("Paused"),
+    String(form.dailyBudget),
+    escape("Manual CPC"),
+    escape(form.campaignName + " Group"),
+    escape("Enabled"),
+    escape(""), // No keyword on Ad row
+    escape(""),
+    escape(creative.headlines[0] || ""),
+    escape(creative.headlines[1] || ""),
+    escape(creative.headlines[2] || ""),
+    escape(creative.headlines[3] || ""),
+    escape(creative.headlines[4] || ""),
+    escape(creative.headlines[5] || ""),
+    escape(creative.headlines[6] || ""),
+    escape(creative.headlines[7] || ""),
+    escape(creative.headlines[8] || ""),
+    escape(creative.headlines[9] || ""),
+    escape(creative.descriptions[0] || ""),
+    escape(creative.descriptions[1] || ""),
+    escape(creative.descriptions[2] || ""),
+    escape(form.url),
+  ];
+  rows.push(adRow);
+
+  // 2. Keyword rows
+  keywords.forEach((item) => {
+    const kwRow = [
+      escape("Add"),
+      escape(form.campaignName),
+      escape("Search"),
+      escape("Paused"),
+      String(form.dailyBudget),
+      escape("Manual CPC"),
+      escape(form.campaignName + " Group"),
+      escape("Enabled"),
+      escape(item.text),
+      escape(item.negative ? "Negative phrase" : "Phrase"),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(""),
+      escape(form.url),
+    ];
+    rows.push(kwRow);
+  });
+
+  const csv = rows.map((r) => r.join(",")).join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute(
+    "download",
+    form.campaignName.replace(/[^a-zA-Z0-9_-]/g, "_") + "_Google_Ads_Import.csv"
+  );
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
 export function AdsAgent() {
   const [config, setConfig] = useState<Config | null>(null);
@@ -103,6 +215,9 @@ export function AdsAgent() {
           supabase.auth
             .getSession()
             .then(({ data }) => setToken(data.session?.access_token || ""));
+          supabase.auth.onAuthStateChange((_event, session) => {
+            setToken(session?.access_token || "");
+          });
         }
       });
   }, []);
@@ -132,14 +247,24 @@ export function AdsAgent() {
       );
   }, [config, token]);
 
-  const headers = () => ({
-    "content-type": "application/json",
-    ...(token ? { authorization: `Bearer ${token}` } : {}),
-  });
   async function call(path: string, init?: RequestInit) {
+    let activeToken = token;
+    if (client) {
+      try {
+        const { data } = await client.auth.getSession();
+        if (data.session?.access_token) {
+          activeToken = data.session.access_token;
+          if (activeToken !== token) setToken(activeToken);
+        }
+      } catch {}
+    }
     const response = await fetch(path, {
       ...init,
-      headers: { ...headers(), ...(init?.headers || {}) },
+      headers: {
+        "content-type": "application/json",
+        ...(activeToken ? { authorization: "Bearer " + activeToken } : {}),
+        ...(init?.headers || {})
+      },
     });
     return readApiResponse(response);
   }
@@ -451,8 +576,10 @@ function Brief({
   busy: boolean;
   onSubmit(): void;
 }) {
+
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((old) => ({ ...old, [key]: value }));
+
   return (
     <section className="card p-5 sm:p-7">
       <div className="mb-6 flex items-start gap-3">
@@ -805,13 +932,21 @@ function Deploy({
         <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-[5px] bg-[#fff8d6] text-black">
           <Check size={34} />
         </div>
-        <h2 className="text-2xl font-bold">Paused campaign created</h2>
+        <h2 className="text-2xl font-bold">Paused Campaign Prepared</h2>
         <p className="mt-2 text-[#2a2a2a]">
-          Review it inside Google Ads before enabling it.
+          Your campaign, keywords, and responsive search ads are finalized.
         </p>
-        <code className="mt-5 inline-block rounded-[5px] bg-[#f8f8f8] p-3 text-xs">
-          {result.resourceName}
-        </code>
+        <button
+          type="button"
+          className="primary mx-auto mt-6 flex items-center justify-center gap-2"
+          onClick={() => downloadEditorCsv(form, keywords, creative)}
+        >
+          <Download size={18} />
+          Download Google Ads Editor CSV
+        </button>
+        <p className="mt-3 text-xs text-[#666]">
+          Import this file into Google Ads Editor and post changes directly to Brand Shop.
+        </p>
       </section>
     );
   return (
@@ -888,6 +1023,14 @@ function Deploy({
             <Megaphone size={18} />
           )}
           Create paused campaign
+        </button>
+        <button
+          type="button"
+          className="secondary mt-3 flex w-full items-center justify-center gap-2 font-medium"
+          onClick={() => downloadEditorCsv(form, keywords, creative)}
+        >
+          <Download size={18} />
+          Export to Google Ads Editor (CSV)
         </button>
       </aside>
       <div className="lg:col-span-2">

@@ -8,3 +8,5 @@ coverage/
 .env.*.local
 *.zip
 .DS_Store
+
+*.tsbuildinfo

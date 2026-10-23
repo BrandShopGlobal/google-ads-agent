@@ -71,7 +71,7 @@ export async function saveDeployment(
       customer_id: campaign.customerId,
       campaign_resource_name: (response as { resourceName?: string })
         .resourceName,
-      status: "PAUSED",
+      status: "pending",
       request_snapshot: campaign,
       response_snapshot: response,
       created_by: user.id,
